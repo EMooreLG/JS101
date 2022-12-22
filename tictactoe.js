@@ -7,6 +7,7 @@ const WINNING_LINES = [
   [1, 4, 7], [2, 5, 8], [3, 6, 9], //COLUMNS
   [1, 5, 9], [3, 5, 7]             //DIAGONALS
 ];
+const POINTS_TO_WIN = 5;
 function prompt(msg) {
   console.log(`==> ${msg}`);
 }
@@ -153,6 +154,9 @@ function someoneWon(board) {
 let board = initializeBoard();
 displayBoard(board);
 
+let computerScore = 0;
+let userScore = 0;
+
 while (true) {
   let board = initializeBoard();
 
@@ -172,9 +176,35 @@ while (true) {
   } else {
     prompt("It's a tie!");
   }
+
+
+  if (detectWinner(board) === 'You') {
+    userScore += 1;
+  } else if (detectWinner(board) === 'Computer') {
+    computerScore += 1;
+  }
+
+  prompt(`Your score is ${userScore} and computer score is ${computerScore}.`);
+
+  if (userScore === 3) {
+    prompt('You win best of 5!  You win the tournament!');
+  } else if (computerScore === 3) {
+    prompt('Computer wins best of 5.  Computer wins the tournament.');
+  }
+
+  if (userScore === 3) {
+    userScore = 0;
+    computerScore = 0;
+  } else if (computerScore === 3) {
+    userScore = 0;
+    computerScore = 0;
+  }
+
   prompt("Play again? (y or n)");
   let answer = readline.question().toLowerCase()[0];
-  if (answer !== 'y') break;
+  if (answer !== 'y') {
+    break;
+  }
 }
 
 prompt("Thanks for playing Tic Tac Toe! I hope you have a great life.");
